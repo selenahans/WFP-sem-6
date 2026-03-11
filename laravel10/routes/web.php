@@ -14,5 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view(view: 'welcomenew');
+});
+Route::get('/menu', function () {
+    return view('menu');
+});
+Route::get('/menu/konsultasi', function () {
+    return view('menu.konsultasi');
+});
+Route::get('/menu/janji', function () {
+    return view('menu.janji');
+});
+Route::get('/admin/categories', function () {
+    return view('admin.categories');
+});
+Route::get('/admin/order', function () {
+    return view('admin.order');
+});
+Route::get('/admin/members', function () {
+    return view('admin.members');
 });
