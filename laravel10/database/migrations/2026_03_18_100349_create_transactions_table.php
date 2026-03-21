@@ -18,14 +18,14 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained('services');
             $table->foreignId('doctor_id')->constrained('doctors');
             $table->decimal('total_price', 12, 2);
+            $table->dateTime('appointment_date')->nullable();
+            $table->text('user_notes')->nullable();
             $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('transactions');

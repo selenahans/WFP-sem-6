@@ -23,13 +23,12 @@ class ArticleSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $title = $faker->sentence(6); 
-
             DB::table('articles')->insert([
                 'title' => $title,
                 'slug' => Str::slug($title) . '-' . $faker->unique()->numberBetween(1, 1000), 
                 'content' => $faker->paragraphs(3, true), 
                 'image' => 'article_' . ($i + 1) . '.jpg',
-                'author_id' => $faker->randomElement($doctorIds),
+                'author_id' => $faker->randomElement($doctorIds), 
                 'status' => $faker->randomElement(['draft', 'published']),
                 'view_count' => $faker->numberBetween(0, 500),
                 'created_at' => now(), 

@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             $table->renameColumn('name', 'category_name');
-            $table->text('description')->nullable()->after('name');
+            $table->text('description')->nullable()->after('id'); 
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
