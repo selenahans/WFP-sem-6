@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\DoctorService;
+use App\Http\Controllers\ArticleService;
+use App\Http\Controllers\TransactionService;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +37,7 @@ Route::get('/admin/order', function () {
 Route::get('/admin/members', function () {
     return view('admin.members');
 });
+Route::resource('services', ServiceController::class);
+Route::resource('doctors', DoctorService::class);
+Route::resource('transactions', TransactionService::class);
+Route::resource('articles', ArticleService::class);
