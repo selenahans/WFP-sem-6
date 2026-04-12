@@ -5,6 +5,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\DoctorService;
 use App\Http\Controllers\ArticleService;
 use App\Http\Controllers\TransactionService;
+use App\Http\Controllers\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,3 +43,4 @@ Route::resource('services', ServiceController::class);
 Route::resource('doctors', DoctorService::class);
 Route::resource('transactions', TransactionService::class);
 Route::resource('articles', ArticleService::class);
+Route::get('/category/showExpensiveService', [CategoryController::class, 'showExpensiveService']);

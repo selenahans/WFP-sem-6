@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,7 +11,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view("categories.index", compact("categories"));
     }
 
     /**
@@ -61,4 +62,13 @@ class CategoryController extends Controller
     {
         //
     }
+    public function showExpensiveService()
+{
+
+    $categories = Category::with(['services' => function ($query) {
+        $query->orderBy('price', 'desc');
+    }])->get();
+
+    return view('category.expensiveservice', compact('categories'));
+}
 }

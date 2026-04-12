@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -17,7 +18,6 @@ class ServiceController extends Controller
         //eloquent orm
         $services = Service::all();
         return view('services.index', compact('services'));
-
     }
 
     /**
@@ -41,7 +41,10 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $service = Service::findOrFail($id); // Mencari satu data
+
+        // Pastikan nama variabel di compact adalah 'service' (tanpa s)
+        return view('services.show', compact('service'));
     }
 
     /**
