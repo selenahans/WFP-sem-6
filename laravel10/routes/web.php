@@ -39,8 +39,11 @@ Route::get('/admin/order', function () {
 Route::get('/admin/members', function () {
     return view('admin.members');
 });
+Route::get('/layouts/adminlte4', function () {
+    return view('layouts.adminlte4');
+});
 Route::resource('services', ServiceController::class);
 Route::resource('doctors', DoctorService::class);
 Route::resource('transactions', TransactionService::class);
 Route::resource('articles', ArticleService::class);
-Route::get('/category/showExpensiveService', [CategoryController::class, 'showExpensiveService']);
+Route::get('/category/showExpensiveService', [CategoryController::class, 'showExpensiveService'])->name('category.expensiveservice');

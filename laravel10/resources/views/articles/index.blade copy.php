@@ -1,8 +1,16 @@
-@extends('layouts.adminlte4')
-@section('title', 'ARTICLES')
-@section('content')
-<div class="container mt-5">
-<div class="card shadow-sm border-0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="card shadow-sm border-0">
     <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
         <h5 class="mb-0 fw-bold text-success">Manajemen Konten</h5>
         <a href="#" class="btn btn-success btn-sm px-3">Buat Artikel Baru</a>
@@ -51,4 +59,5 @@
         </div>
     </div>
 </div>
-@endsection
+</body>
+</html>
