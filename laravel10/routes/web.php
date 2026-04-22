@@ -47,3 +47,10 @@ Route::resource('doctors', DoctorService::class);
 Route::resource('transactions', TransactionService::class);
 Route::resource('articles', ArticleService::class);
 Route::get('/category/showExpensiveService', [CategoryController::class, 'showExpensiveService'])->name('category.expensiveservice');
+//week7
+Route::post("/category/showInfo", [CategoryController::class, 'showInfo'])->name("category.showInfo");
+Route::post(
+    "/category/showListServices",
+    [CategoryController::class, 'showListServices']
+)
+    ->name("category.showListServices");

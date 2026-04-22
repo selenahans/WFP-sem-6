@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -62,13 +63,37 @@ class CategoryController extends Controller
     {
         //
     }
+    public function showInfo()
+    {
+        $highestServiceCategory = Category::withCount('services')
+            ->orderByDesc('services_count')
+            ->first();
+
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => '<div class="alert alert-success">The category with the most services is: <b>' .
+                $highestServiceCategory->category_name . '</b></div>'
+        ), 200);
+    }
+    public function showListServices()
+    {
+        $category = Category::find($_POST['idcat']);
+        $name = $category->category_name;
+        $data = $category->services;
+        return response()->json(array(
+            'status' => 'oke',
+            'title' => $name . ' Service List',
+            'body' => view('category.showListServices', compact('name', 'data'))->render()
+        ), 200);
+    }
+
     public function showExpensiveService()
-{
+    {
 
-    $categories = Category::with(['services' => function ($query) {
-        $query->orderBy('price', 'desc');
-    }])->get();
+        $categories = Category::with(['services' => function ($query) {
+            $query->orderBy('price', 'desc');
+        }])->get();
 
-    return view('category.expensiveservice', compact('categories'));
-}
+        return view('category.expensiveservice', compact('categories'));
+    }
 }
