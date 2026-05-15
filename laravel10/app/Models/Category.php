@@ -9,6 +9,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $table = 'categories';
+    public $timestamps = false;
     // protected $id = 'id';
 
     // public $description = 'description';

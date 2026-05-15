@@ -19,7 +19,7 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view(view: 'welcomenew');
+    return view(view: 'layouts.adminlte4');
 });
 Route::get('/menu', function () {
     return view('menu');
@@ -54,3 +54,5 @@ Route::post(
     [CategoryController::class, 'showListServices']
 )
     ->name("category.showListServices");
+Route::resource("service", ServiceController::class);
+Route::resource("category", CategoryController::class);

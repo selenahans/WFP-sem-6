@@ -28,6 +28,9 @@
                             Pilih Layanan
                         </a>
 
+                         <a href="{{route('service.index')}}" class="btn btn-success">
+                            Pilih Layanan
+                        </a>
                     </div>
                 </div>
             </div>

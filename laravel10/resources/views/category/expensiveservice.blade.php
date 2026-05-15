@@ -86,7 +86,7 @@
                                     <td>
                                         {{-- {{ $cat->list_of_services ?? '-' }} --}}
                                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#detailModal“ onclick=" showDetail({{ $cat->id }}>
+                                            data-bs-target="#detailModal" onclick="showDetail({{ $cat->id }})">
                                             Details
                                         </button>
 
@@ -104,9 +104,9 @@
                                                     </div>
                                                     <div class="modal-body" id="detail-body">
                                                         <ul>
-                                                            @foreach ($data as $f)
-                                                                <li>{{$f->service_name}}</li>
-                                                            @endforeach
+                                                            @foreach ($cat->services as $f)
+    <li>{{ $f->service_name }}</li>
+@endforeach
                                                         </ul>
 
                                                     </div>
