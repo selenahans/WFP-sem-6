@@ -8,22 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
-    protected $table = 'services';
-    // protected $id = 'id';
-    // protected $category_id = 'category_id';
+    protected $table = 'services'; 
 
-    // public $name = 'name';
-    // public $desc = 'description';
-    // public $description = 'description';
-    // public $available_from = 'available_from';
-    // public $available_to = 'available_to';
-    // public $price = 'price';
+    protected $fillable = [
+        'name',
+        'description',
+        'available_from',
+        'available_to',
+        'category_id',
+        'price'
+    ];
 
-
-    // const CREATED_AT = 'created_at';
-    // const UPDATED_AT = 'updated_at';
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 }

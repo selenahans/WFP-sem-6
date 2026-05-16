@@ -8,6 +8,12 @@
     <p>The <a href="#" onclick="showInfo()">.table</a> class adds basic styling (light padding and only horizontal dividers)
         to a table:</p>
     <div id="showInfo"></div>
+        @if (@session('success'))
+        <div class="alert alert-success">
+           {{ session('success') }}
+        </div>
+    @endif
+    <a href="{{ route('category.create') }}" class="btn btn-primary">Add Category</a>
     <div class="container mt-5">
         <div class="card shadow border-0">
             <div class="card-header bg-dark py-3">

@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view("categories.index", compact("categories"));
+        return view("category.expensiveservice", compact("categories"));
     }
 
     /**
@@ -22,6 +22,7 @@ class CategoryController extends Controller
     public function create()
     {
         return view("category.create");
+        
     }
 
     /**
@@ -29,10 +30,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data= new Category();
+        $data = new Category();
         $data->category_name = $request->get('name');
         $data->save();
-        return redirect()->route('category.index');
+        return redirect()->route('category.expensiveservice')->with('success', 'Category created successfully.');
     }
 
     /**

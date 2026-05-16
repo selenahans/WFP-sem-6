@@ -298,6 +298,18 @@
               </a>
             </li>
           </ul>
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+              <a href="{{ route('transaction.index') }}"
+                class="nav-link {{ request()->is('transaction*') ? 'active' : '' }}">
+                <i class="nav-icon bi bi-table"></i>
+                <p>
+                  Transaction
+                  <i class="nav-arrow bi bi-chevron-right"></i>
+                </p>
+              </a>
+            </li>
+          </ul>
           <!--end::Sidebar Menu-->
         </nav>
       </div>

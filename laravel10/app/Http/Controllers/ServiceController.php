@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Category;
 use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -25,7 +25,8 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('services.create', compact('categories'));
     }
 
     /**
@@ -33,7 +34,24 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required',
+            'available_from' => 'required',
+            'available_to' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric',
+        ]);
+        Service::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'available_from' => $request->available_from,
+            'available_to' => $request->available_to,
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+        ]);
+
+        return redirect()->route('service.index')->with('success', 'Service created successfully.');
     }
 
     /**

@@ -56,3 +56,5 @@ Route::post(
     ->name("category.showListServices");
 Route::resource("service", ServiceController::class);
 Route::resource("category", CategoryController::class);
+Route::resource("transaction", TransactionService::class);
+

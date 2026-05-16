@@ -5,6 +5,13 @@
         <div class="card-header bg-dark py-3">
             <h5 class="mb-0 fw-bold text-white">Daftar Layanan & Kategori</h5>
         </div>
+        <div id="showInfo"></div>
+        @if (@session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        <a href="{{ route('services.create') }}" class="btn btn-primary">Add Services</a>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle mb-0">
@@ -26,7 +33,8 @@
                                 </td>
                                 <td>
                                     <div class="fw-bold">{{ $service->name }}
-                                        <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary ml-2">Detail</a>
+                                        <a href="{{ route('services.show', $service->id) }}"
+                                            class="btn btn-sm btn-outline-primary ml-2">Detail</a>
                                     </div>
                                     <small class="text-muted">{{ Str::limit($service->description, 50) }}</small>
                                 </td>
@@ -37,7 +45,7 @@
                                         {{ $service->category->category_name ?? 'Tanpa Kategori' }}
                                     </div>
                                 </td>
-{{-- 
+                                {{--
                                 <td class="fw-bold text-success">
                                     Rp {{ number_format($service->price, 0, ',', '.') }}
                                 </td> --}}

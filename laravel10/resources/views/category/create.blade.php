@@ -1,8 +1,5 @@
 @extends('layouts.adminlte4')
 @section('content')
-   <!-- fill with your page bar like previous week HERE !-->
-   <!-- end page bar !-->
-    <!-- END PAGE HEADER-->
     <form method="POST" action="{{ route('category.store') }}">
         @csrf
 
