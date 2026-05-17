@@ -1,40 +1,34 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB; 
-use Illuminate\Support\Str;       
-use Faker\Factory as Faker;        
-
-class ArticleSeeder extends Seeder
+return new class extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      */
-    public function run(): void
+    public function up(): void
     {
-        $faker = Faker::create('id_ID');
-        $doctorIds = DB::table('doctors')->pluck('id')->toArray();
-        if (empty($doctorIds)) {
-            $this->command->info("Tabel doctors kosong!");
-            return;
-        }
-
-        for ($i = 0; $i < 10; $i++) {
-            $title = $faker->sentence(6); 
-
-            DB::table('articles')->insert([
-                'title' => $title,
-                'slug' => Str::slug($title) . '-' . $faker->unique()->numberBetween(1, 1000), 
-                'content' => $faker->paragraphs(3, true), 
-                'image' => 'article_' . ($i + 1) . '.jpg',
-                'author_id' => $faker->randomElement($doctorIds),
-                'status' => $faker->randomElement(['draft', 'published']),
-                'view_count' => $faker->numberBetween(0, 500),
-                'created_at' => now(), 
-                'updated_at' => now(),
-            ]);
-        }
+        Schema::create('articles', function (Blueprint $table) {
+            $table->id(); 
+            $table->string('title', 255); 
+            $table->string('slug', 255); 
+            $table->text('content'); 
+            $table->string('image', 255)->nullable(); 
+            $table->unsignedBigInteger('author_id'); 
+            $table->enum('status', ['draft', 'published'])->default('draft'); 
+            $table->unsignedInteger('view_count')->default(0); 
+            $table->timestamps(); 
+        });
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('articles');
+    }
+};

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\Transaction;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,7 +16,8 @@ class TransactionService extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::all();
+        // $transactions = Transaction::all();
+        $transactions = Transaction::with(['services', 'user'])->get();
         return view('transactions.index', compact('transactions'));
     }
 
@@ -25,7 +27,9 @@ class TransactionService extends Controller
     public function create()
     {
         $services = Service::all();
-        return view('transactions.create', compact('services'));
+        $doctors = Doctor::all(); 
+        
+        return view('transactions.create', compact('services', 'doctors'));
     }
 
     /**
@@ -34,28 +38,37 @@ class TransactionService extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'service_id' => 'required|exists:services,id',
-            'quantity' => 'required|integer|min:1',
-            'appointment_date' => 'nullable|date',
-            'user_notes' => 'nullable|string',
-        ]);
-        $service = Service::find($request->service_id);
-        $totalPrice = $service->price * $request->quantity;
-        $transaction = Transaction::create([
-            'transaction_code' => 'TRX-' . strtoupper(Str::random(8)),
-            'user_id' => 1,
-            'service_id' => $request->service_id,
-            'doctor_id' => 1,
-            'total_price' => $totalPrice,
-            'appointment_date' => $request->appointment_date,
-            'user_notes' => $request->user_notes,
-            'status' => 'pending'
-        ]);
-        $transaction->services()->attach($request->service_id, [
-            'quantity' => $request->quantity
+            'doctor_id'        => 'required|exists:doctors,id',
+            'appointment_date' => 'required|date',
+            'user_notes'       => 'nullable|string',
+            'services'         => 'required|array', 
+            'services.*'       => 'exists:services,id',
+            'quantities'       => 'required|array',
         ]);
 
-        return redirect()->route('transaction.index')->with('success', 'Transaksi berhasil disimpan!');
+        $totalPrice = 0;
+        $pivotData = [];
+        foreach ($request->services as $serviceId) {
+            $service = Service::find($serviceId);
+            $qty = $request->quantities[$serviceId] ?? 1; 
+            $totalPrice += $service->price * $qty;
+            $pivotData[$serviceId] = [
+                'quantity' => $qty
+            ];
+        }
+        $firstServiceId = $request->services[0];
+        $transaction = Transaction::create([
+            'transaction_code' => 'TRX-' . strtoupper(Str::random(8)),
+            'user_id'          => auth()->id() ?? 1,
+            'service_id'       => $firstServiceId,  
+            'doctor_id'        => $request->doctor_id,
+            'total_price'      => $totalPrice,       
+            'appointment_date' => $request->appointment_date,
+            'user_notes'       => $request->user_notes,
+            'status'           => 'pending'
+        ]);
+        $transaction->services()->attach($pivotData);
+        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil disimpan!');
     }
 
     /**
