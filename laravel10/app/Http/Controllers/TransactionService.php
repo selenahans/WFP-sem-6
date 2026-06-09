@@ -27,8 +27,8 @@ class TransactionService extends Controller
     public function create()
     {
         $services = Service::all();
-        $doctors = Doctor::all(); 
-        
+        $doctors = Doctor::all();
+
         return view('transactions.create', compact('services', 'doctors'));
     }
 
@@ -41,7 +41,7 @@ class TransactionService extends Controller
             'doctor_id'        => 'required|exists:doctors,id',
             'appointment_date' => 'required|date',
             'user_notes'       => 'nullable|string',
-            'services'         => 'required|array', 
+            'services'         => 'required|array',
             'services.*'       => 'exists:services,id',
             'quantities'       => 'required|array',
         ]);
@@ -50,7 +50,7 @@ class TransactionService extends Controller
         $pivotData = [];
         foreach ($request->services as $serviceId) {
             $service = Service::find($serviceId);
-            $qty = $request->quantities[$serviceId] ?? 1; 
+            $qty = $request->quantities[$serviceId] ?? 1;
             $totalPrice += $service->price * $qty;
             $pivotData[$serviceId] = [
                 'quantity' => $qty
@@ -60,9 +60,9 @@ class TransactionService extends Controller
         $transaction = Transaction::create([
             'transaction_code' => 'TRX-' . strtoupper(Str::random(8)),
             'user_id'          => auth()->id() ?? 1,
-            'service_id'       => $firstServiceId,  
+            'service_id'       => $firstServiceId,
             'doctor_id'        => $request->doctor_id,
-            'total_price'      => $totalPrice,       
+            'total_price'      => $totalPrice,
             'appointment_date' => $request->appointment_date,
             'user_notes'       => $request->user_notes,
             'status'           => 'pending'
@@ -84,7 +84,14 @@ class TransactionService extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        //
+        $transaction->load('services');
+
+        $services = Service::all();
+        $doctors = Doctor::all();
+
+        $selectedServices = $transaction->services->pluck('pivot.quantity', 'id')->toArray();
+
+        return view('transactions.edit', compact('transaction', 'services', 'doctors', 'selectedServices'));
     }
 
     /**
@@ -92,14 +99,56 @@ class TransactionService extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
-    }
+        $request->validate([
+            'doctor_id'        => 'required|exists:doctors,id',
+            'appointment_date' => 'required',
+            'user_notes'       => 'nullable|string',
+            'status'           => 'required|in:pending,completed,cancelled',
+            'services'         => 'required|array',
+            'services.*'       => 'exists:services,id',
+            'quantities'       => 'required|array',
+        ]);
 
+        DB::beginTransaction();
+        try {
+            $totalPrice = 0;
+            $pivotData = [];
+            foreach ($request->services as $index => $serviceId) {
+                $service = Service::find($serviceId);
+                $qty = $request->quantities[$index] ?? 1;
+
+                $totalPrice += $service->price * $qty;
+                $pivotData[$serviceId] = [
+                    'quantity' => $qty
+                ];
+            }
+            $transaction->update([
+                'doctor_id'        => $request->doctor_id,
+                'appointment_date' => $request->appointment_date,
+                'user_notes'       => $request->user_notes,
+                'status'           => $request->status,
+                'total_price'      => $totalPrice,
+                'service_id'       => $request->services[0],
+            ]);
+            $transaction->services()->sync($pivotData);
+
+            DB::commit();
+            return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diperbarui!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('status', 'Gagal memperbarui transaksi: ' . $e->getMessage());
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        try {
+            $transaction->delete();
+            return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dipindahkan ke Recycle Bin.');
+        } catch (\PDOException $ex) {
+            return redirect()->route('transactions.index')->with('status', 'Gagal menghapus data transaksi.');
+        }
     }
 }

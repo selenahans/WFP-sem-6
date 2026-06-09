@@ -12,7 +12,12 @@
         <div class="alert alert-success">
            {{ session('success') }}
         </div>
-    @endif
+        @endif
+        @if (session('status'))
+        <div class="alert alert-warning">
+            {{ session('status') }}
+        </div>       
+        @endif
     <a href="{{ route('category.create') }}" class="btn btn-primary">Add Category</a>
     <div class="container mt-5">
         <div class="card shadow border-0">
@@ -30,7 +35,7 @@
                                 <th>List of services</th>
                                 <th>Layanan Termahal</th>
                                 <th>Harga</th>
-
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,6 +130,15 @@
                                         </div>
                                     @endpush
 
+      <td>
+    <a href="{{ route('category.edit', $cat->id) }}" class='btn btn-warning'>Edit</a>
+    <form method="POST" action="{{ route('category.destroy', $cat->id) }}">
+        @csrf
+        @method('DELETE')
+        <input type="submit" value="Delete" class="btn btn-danger"
+        onclick="return confirm('Are you sure to delete {{ $cat->id }} - {{ $cat->name }}?');">
+    </form>
+</td>
                                 </tr>
                             @endforeach
                         </tbody>

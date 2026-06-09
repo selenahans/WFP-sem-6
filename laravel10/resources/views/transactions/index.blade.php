@@ -52,7 +52,8 @@
 
                                 <td>
                                     <div class="small">
-                                        {{ $trx->appointment_date ? $trx->appointment_date->format('d/m/Y') : '-' }}</div>
+                                        {{ $trx->appointment_date ? $trx->appointment_date->format('d/m/Y') : '-' }}
+                                    </div>
                                     <div class="small fw-bold text-muted">
                                         {{ $trx->appointment_date ? $trx->appointment_date->format('H:i') . ' WIB' : '' }}
                                     </div>
@@ -79,6 +80,29 @@
                                         data-bs-title="{{ $trx->user_notes ?? 'Tidak ada catatan' }}">
                                         <i class="bi bi-eye"></i> Detail
                                     </button>
+                                </td>
+                                <td class="text-end pe-3">
+                                    <div class="d-flex justify-content-end gap-1">
+                                        <button class="btn btn-sm btn-dark" title="Lihat Catatan" data-bs-toggle="tooltip"
+                                            data-bs-title="{{ $trx->user_notes ?? 'Tidak ada catatan' }}">
+                                            <i class="bi bi-eye"></i> Detail
+                                        </button>
+
+                                        <a href="{{ route('transactions.edit', $trx->id) }}"
+                                            class="btn btn-sm btn-warning text-dark fw-bold" title="Edit Transaksi">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+
+                                        <form method="POST" action="{{ route('transactions.destroy', $trx->id) }}"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus Transaksi"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus transaksi {{ $trx->transaction_code }}?');">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

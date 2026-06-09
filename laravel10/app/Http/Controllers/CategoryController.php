@@ -22,7 +22,6 @@ class CategoryController extends Controller
     public function create()
     {
         return view("category.create");
-        
     }
 
     /**
@@ -49,23 +48,45 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // 1. Ambil data category berdasarkan ID terlebih dahulu
+        $category = Category::findOrFail($id);
+
+        // 2. Sekarang compact('category') tidak akan error lagi karena variabelnya sudah ada
+        return view('category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'categoryName' => 'required|string|max:255',
+        ]);
+        $category->category_name = $request->categoryName;
+        $category->save();
+        return redirect()->route('category.index')->with('success', 'Category updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
         //
+        try {
+            $category->delete();
+            return redirect()->route('category.index')->with(
+                'success',
+                'Successfully deleted a category'
+            );
+        } catch (\PDOException $ex) {
+            $msg = "Make sure there is no related data before deleting it. Please contact Administrator to know more about it.";
+            return redirect()->route('category.index')->with(
+                'status',
+                $msg
+            );
+        }
     }
     public function showInfo()
     {

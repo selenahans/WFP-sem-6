@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
     use HasFactory;
-    protected $table = 'services'; 
+    use SoftDeletes;
+    protected $table = 'services';
 
     protected $fillable = [
         'name',
@@ -21,6 +23,7 @@ class Service extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id')
+            ->withTrashed();
     }
 }
