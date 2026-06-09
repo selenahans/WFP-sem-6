@@ -7,6 +7,7 @@ use App\Http\Controllers\ArticleService;
 use App\Http\Controllers\TransactionService;
 use App\Http\Controllers\CategoryController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,4 +58,26 @@ Route::post(
 Route::resource("service", ServiceController::class);
 Route::resource("category", CategoryController::class);
 Route::resource("transaction", TransactionService::class);
-
+Route::post('/ajax/category/getEditForm', [CategoryController::class, 'getEditForm'])->name('category.getEditForm');
+Route::post('/ajax/category/getEditFormB', [CategoryController::class, 'getEditFormB'])
+->name('category.getEditFormB');
+Route::post('/ajax/category/saveDataUpdate', [CategoryController::class, 'saveDataUpdate'])
+->name('category.saveDataUpdate');
+Route::post('/ajax/category/deleteData', [CategoryController::class, 'deleteData'])
+->name('category.deleteData');
+Route::post('/ajax/doctor/getEditFormB', [DoctorService::class, 'getEditFormB'])->name('doctor.getEditFormB');
+Route::post('/ajax/doctor/saveDataUpdate', [DoctorService::class, 'saveDataUpdate'])->name('doctor.saveDataUpdate');
+Route::post('/ajax/doctor/deleteData', [DoctorService::class, 'deleteData'])->name('doctor.deleteData');
+Route::resource('doctor', DoctorService::class)->names('doctor');
+Route::post('/ajax/article/getEditFormB', [ArticleService::class, 'getEditFormB'])->name('article.getEditFormB');
+Route::post('/ajax/article/saveDataUpdate', [ArticleService::class, 'saveDataUpdate'])->name('article.saveDataUpdate');
+Route::post('/ajax/article/deleteData', [ArticleService::class, 'deleteData'])->name('article.deleteData');
+Route::resource('article', ArticleService::class)->names('article');
+Route::resource('services', ServiceController::class);
+Route::post('/ajax/services/getEditFormB', [ServiceController::class, 'getEditFormB'])->name('services.getEditFormB');
+Route::post('/ajax/services/saveDataUpdate', [ServiceController::class, 'saveDataUpdate'])->name('services.saveDataUpdate');
+Route::post('/ajax/services/deleteData', [ServiceController::class, 'deleteData'])->name('services.deleteData');
+Route::resource('transactions', TransactionService::class);
+Route::post('/ajax/transactions/getEditFormB', [TransactionService::class, 'getEditFormB'])->name('transactions.getEditFormB');
+Route::post('/ajax/transactions/saveDataUpdate', [TransactionService::class, 'saveDataUpdate'])->name('transactions.saveDataUpdate');
+Route::post('/ajax/transactions/deleteData', [TransactionService::class, 'deleteData'])->name('transactions.deleteData');

@@ -99,8 +99,7 @@
                                     </div>
                                 @endforeach
                             @else
-                                {{-- FALLBACK (Baru): Jika data kosong, tampilkan 1 baris default agar user bisa memilih layanan
-                                --}}
+                                
                                 <div class="row g-2 mb-2 service-row">
                                     <div class="col-md-7">
                                         <select class="form-control form-select" name="services[]" required>

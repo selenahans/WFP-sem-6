@@ -29,9 +29,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
         $data = new Category();
-        $data->category_name = $request->get('name');
+        $data->category_name = $request->name;
         $data->save();
+
         return redirect()->route('category.expensiveservice')->with('success', 'Category created successfully.');
     }
 
@@ -48,10 +53,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        // 1. Ambil data category berdasarkan ID terlebih dahulu
         $category = Category::findOrFail($id);
-
-        // 2. Sekarang compact('category') tidak akan error lagi karena variabelnya sudah ada
         return view('category.edit', compact('category'));
     }
 
@@ -61,13 +63,41 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'categoryName' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
-        $category->category_name = $request->categoryName;
+        $category->category_name = $request->name;
         $category->save();
         return redirect()->route('category.index')->with('success', 'Category updated successfully.');
     }
-
+public function getEditFormB(Request $request)
+{
+    $id = $request->id;
+    $data = Category::find($id);
+    
+    return response()->json(array(
+        'status' => 'oke',
+        'msg' => view('category.getEditFormB', compact('data'))->render() 
+    ), 200);
+}
+public function deleteData(Request $request)
+{
+    $id = $request->id;
+    $data = Category::find($id);
+    $data->delete();
+    return response()->json(array(
+        'status' => 'oke',
+        'msg' => 'category data is removed !'
+    ), 200);
+}
+public function saveDataUpdate(Request $request)
+{
+    $id = $request->id;
+    $data = Category::find($id);
+    $data->category_name = $request->name;
+    $data->save();
+    
+    return response()->json(array('status' => 'oke', 'msg' => 'category data is up-to-date !'), 200);
+}
     /**
      * Remove the specified resource from storage.
      */
