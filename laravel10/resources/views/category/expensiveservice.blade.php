@@ -90,13 +90,16 @@
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('category.edit', $cat->id) }}"
                                                 class='btn btn-sm btn-warning'>Edit</a>
+                                                @can('delete-permission', Auth::user())
                                             <form method="POST" action="{{ route('category.destroy', $cat->id) }}"
                                                 class="d-inline"
                                                 onsubmit="return confirm('Are you sure to delete {{ $cat->id }} - {{ $cat->category_name }}?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                                
                                             </form>
+                                            @endcan
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                                 data-bs-target="#modalEditA" onclick="getEditForm({{ $cat->id }})">
                                                 Edit Type A
@@ -107,9 +110,11 @@
                                                     Edit Type B
                                                 </button>
                                             </div>
+                                            @can('delete-permission', Auth::user())
                                             <a href="#" value="DeleteNoReload" class="btn btn-danger"
                                                 onclick="if(confirm('Are you sure to delete {{ $cat->id }} - {{ $cat->category_name }} ?')) deleteDataRemove({{ $cat->id }})">Delete
                                                 without Reload</a>
+                                                @endcan
                                         </div>
                                     </td>
                                 </tr>

@@ -191,19 +191,23 @@
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
               <img src="{{ asset('/css/assets/img/user2-160x160.jpg') }}" class="user-image rounded-circle shadow"
                 alt="User Image" />
-              <span class="d-none d-md-inline">Alexander Pierce</span>
+              <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
             </a>
+            <form action="{{ route('logout') }}" method="post">
+              @csrf<input type="submit" value="logout" class='btn btn-danger' />
+            </form>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
-              <li class="user-header text-bg-primary">
-                <img {{-- src="../../dist/assets/img/user2-160x160.jpg" --}}
-                  src="{{ asset('/css/assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow"
-                  alt="User Image" />
+              <li class="user-header text-bg-primary"> <img {{-- src="../../dist/assets/img/user2-160x160.jpg" --}}
+                src="{{ asset('/css/assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow" alt="User Image" />
                 <p>
-                  Alexander Pierce - Web Developer
+                  {{ Auth::user()->name }} - Web Developer
                   <small>Member since Nov. 2023</small>
                 </p>
               </li>
+              <form action="{{ route('logout') }}" method="post">
+                @csrf<input type="submit" value="logout" class='btn btn-danger' />
+              </form>
               <!--end::User Image-->
               <!--begin::Menu Body-->
               <li class="user-body">
@@ -253,60 +257,58 @@
       <div class="sidebar-wrapper">
         <nav class="mt-2">
           <!--begin::Sidebar Menu-->
-          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{ route('services.index') }}" class="nav-link {{ request()->is('services*') ? 'active' : '' }}">
-                <i class="nav-icon bi bi-table"></i>
-                <p>
-                  Services
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle=" treeview" role="menu" data-accordion="false"> <li
+            class="nav-item">
+            <a href="{{ route('services.index') }}" class="nav-link {{ request()->is('services*') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-table"></i>
+              <p>
+                Services
+                <i class="nav-arrow bi bi-chevron-right"></i>
+              </p>
+            </a>
+            </li>
+          </ul>
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle=" treeview" role="menu" data-accordion="false"> <li
+            class="nav-item">
+            <a href="{{ route('doctors.index') }}" class="nav-link {{ request()->is('doctors*') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-table"></i>
+              <p>
+                Doctor
+                <i class="nav-arrow bi bi-chevron-right"></i>
+              </p>
+            </a>
+            </li>
+          </ul>
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle=" treeview" role="menu" data-accordion="false"> <li
+            class="nav-item">
+            <a href="{{ route('articles.index') }}" class="nav-link {{ request()->is('articles*') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-table"></i>
+              <p>
+                Article
+                <i class="nav-arrow bi bi-chevron-right"></i>
+              </p>
+            </a>
+            </li>
+          </ul>
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle=" treeview" role="menu" data-accordion="false">
+            <li class="nav-item" > <a href="{{ route('category.expensiveservice') }}"
+              class="nav-link {{ request()->is('categories*') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-table"></i>
+              <p>
+                Category
+                <i class="nav-arrow bi bi-chevron-right"></i>
+              </p>
               </a>
             </li>
           </ul>
-          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{ route('doctors.index') }}" class="nav-link {{ request()->is('doctors*') ? 'active' : '' }}">
-                <i class="nav-icon bi bi-table"></i>
-                <p>
-                  Doctor
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-            </li>
-          </ul>
-          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{ route('articles.index') }}" class="nav-link {{ request()->is('articles*') ? 'active' : '' }}">
-                <i class="nav-icon bi bi-table"></i>
-                <p>
-                  Article
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-            </li>
-          </ul>
-          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{ route('category.expensiveservice') }}"
-                class="nav-link {{ request()->is('categories*') ? 'active' : '' }}">
-                <i class="nav-icon bi bi-table"></i>
-                <p>
-                  Category
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-            </li>
-          </ul>
-          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="{{ route('transaction.index') }}"
-                class="nav-link {{ request()->is('transaction*') ? 'active' : '' }}">
-                <i class="nav-icon bi bi-table"></i>
-                <p>
-                  Transaction
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle=" treeview" role="menu" data-accordion="false">
+            <li class="nav-item" > <a href="{{ route('transaction.index') }}"
+              class="nav-link {{ request()->is('transaction*') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-table"></i>
+              <p>
+                Transaction
+                <i class="nav-arrow bi bi-chevron-right"></i>
+              </p>
               </a>
             </li>
           </ul>
@@ -317,29 +319,29 @@
     </aside>
     <!--end::Sidebar-->
     <!--begin::App Main-->
-    <main class="app-main">
-      @yield('content')
-      @stack('modals')
-      @stack('modal')
-      @stack('script')
+      <main class="app-main">
+        @yield('content')
+        @stack('modals')
+        @stack('modal')
+        @stack('script')
 
-    </main>
+      </main>
 
-    <!--end::App Main-->
-    <!--begin::Footer-->
-    <footer class="app-footer">
-      <!--begin::To the end-->
-      <div class="float-end d-none d-sm-inline">Anything you want</div>
-      <!--end::To the end-->
-      <!--begin::Copyright-->
-      <strong>
-        Copyright &copy; 2014-2024&nbsp;
-        <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-      </strong>
-      All rights reserved.
-      <!--end::Copyright-->
-    </footer>
-    <!--end::Footer-->
+      <!--end::App Main-->
+      <!--begin::Footer-->
+      <footer class="app-footer">
+        <!--begin::To the end-->
+        <div class="float-end d-none d-sm-inline">Anything you want</div>
+        <!--end::To the end-->
+        <!--begin::Copyright-->
+        <strong>
+          Copyright &copy; 2014-2024&nbsp;
+          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+        </strong>
+        All rights reserved.
+        <!--end::Copyright-->
+      </footer>
+      <!--end::Footer-->
   </div>
   <!--end::App Wrapper-->
   <!--begin::Script-->

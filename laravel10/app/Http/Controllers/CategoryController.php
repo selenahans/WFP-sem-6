@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -103,20 +104,22 @@ public function saveDataUpdate(Request $request)
      */
     public function destroy(Category $category)
     {
-        //
-        try {
-            $category->delete();
-            return redirect()->route('category.index')->with(
-                'success',
-                'Successfully deleted a category'
-            );
-        } catch (\PDOException $ex) {
-            $msg = "Make sure there is no related data before deleting it. Please contact Administrator to know more about it.";
-            return redirect()->route('category.index')->with(
-                'status',
-                $msg
-            );
-        }
+        // $this->authorize('delete', $category);
+        $this->authorize('delete-permission', Auth::user());
+
+        // try {
+        //     $category->delete();
+        //     return redirect()->route('category.index')->with(
+        //         'success',
+        //         'Successfully deleted a category'
+        //     );
+        // } catch (\PDOException $ex) {
+        //     $msg = "Make sure there is no related data before deleting it. Please contact Administrator to know more about it.";
+        //     return redirect()->route('category.index')->with(
+        //         'status',
+        //         $msg
+        //     );
+        // }
     }
     public function showInfo()
     {

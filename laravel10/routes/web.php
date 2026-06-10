@@ -6,7 +6,7 @@ use App\Http\Controllers\DoctorService;
 use App\Http\Controllers\ArticleService;
 use App\Http\Controllers\TransactionService;
 use App\Http\Controllers\CategoryController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ Route::post(
 )
     ->name("category.showListServices");
 Route::resource("service", ServiceController::class);
-Route::resource("category", CategoryController::class);
+// Route::resource("category", CategoryController::class);
 Route::resource("transaction", TransactionService::class);
 Route::post('/ajax/category/getEditForm', [CategoryController::class, 'getEditForm'])->name('category.getEditForm');
 Route::post('/ajax/category/getEditFormB', [CategoryController::class, 'getEditFormB'])
@@ -81,3 +81,10 @@ Route::resource('transactions', TransactionService::class);
 Route::post('/ajax/transactions/getEditFormB', [TransactionService::class, 'getEditFormB'])->name('transactions.getEditFormB');
 Route::post('/ajax/transactions/saveDataUpdate', [TransactionService::class, 'saveDataUpdate'])->name('transactions.saveDataUpdate');
 Route::post('/ajax/transactions/deleteData', [TransactionService::class, 'deleteData'])->name('transactions.deleteData');
+
+Auth::routes();
+Route::middleware(["auth"])->group(function(){
+  Route::resource("category", CategoryController::class);
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

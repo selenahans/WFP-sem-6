@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class TransactionService extends Controller
+// class TransactionService extends Controller
+class ServiceController extends Controller
 {
     public function index()
     {
